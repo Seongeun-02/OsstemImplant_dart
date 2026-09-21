@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width">
+<title>오스템임플란트 DART Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>body{font-family:Arial,sans-serif;max-width:1200px;margin:30px auto;padding:0 20px} .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.card{padding:18px;border:1px solid #ddd;border-radius:12px}.muted{color:#666} table{width:100%;border-collapse:collapse;margin-top:20px}td,th{border:1px solid #ddd;padding:8px;text-align:right}th:first-child,td:first-child{text-align:left}</style>
+</head><body><h1>오스템임플란트 DART 재무 Dashboard</h1><p class="muted" id="updated"></p>
+<div class="cards" id="cards"></div><canvas id="chart" height="100"></canvas><h2>연도별 재무비율</h2><div id="table"></div>
+<script>
+fetch('../data/latest.json').then(r=>r.json()).then(d=>{
+ const years=Object.keys(d.years).sort(); document.getElementById('updated').textContent='업데이트: '+d.updated_at;
+ const latest=d.years[years.at(-1)].raw;
+ const labels={revenue:'매출액',operating_income:'영업이익',net_income:'당기순이익',total_assets:'총자산',total_liabilities:'총부채',equity:'자본총계'};
+ document.getElementById('cards').innerHTML=Object.entries(labels).map(([k,v])=>`<div class="card"><b>${v}</b><div>${latest[k]==null?'N/A':latest[k].toLocaleString()}</div></div>`).join('');
+ new Chart(document.getElementById('chart'),{type:'line',data:{labels,datasets:[
+  {label:'매출액',data:years.map(y=>d.years[y].raw.revenue)},
+  {label:'영업이익',data:years.map(y=>d.years[y].raw.operating_income)},
+  {label:'당기순이익',data:years.map(y=>d.years[y].raw.net_income)}]},options:{responsive:true}});
+ const ratios=['gross_margin','operating_margin','net_margin','roa','roe','debt_to_equity','equity_ratio','asset_turnover','revenue_growth','cfo_to_net_income'];
+ document.getElementById('table').innerHTML='<table><tr><th>지표</th>'+years.map(y=>`<th>${y}</th>`).join('')+'</tr>'+
+ ratios.map(k=>`<tr><td>${k}</td>${years.map(y=>{let x=d.years[y].ratios[k];return `<td>${x==null?'N/A':(x*100).toFixed(2)+'%'}</td>`}).join('')}</tr>`).join('')+'</table>';
+});
+</script></body></html>

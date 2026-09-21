@@ -1,0 +1,70 @@
+company:
+  name: "오스템임플란트"
+  corp_code: "00341916"
+  stock_code: "048260"
+
+dart:
+  report_type: "11011"   # 사업보고서
+  years_back: 5
+  use_rss: false         # 오스템임플란트 RSS 미사용: DART 공시검색 API 사용
+
+analysis:
+  statements: "CFS"      # 연결 기준 우선
+  fallback_statements: "OFS"
+
+  balance_sheet:
+    - total_assets
+    - cash_and_equivalents
+    - accounts_receivable
+    - inventories
+    - property_plant_equipment
+    - total_liabilities
+    - interest_bearing_debt
+    - equity
+
+  income_statement:
+    - revenue
+    - gross_profit
+    - selling_general_admin
+    - operating_income
+    - profit_before_tax
+    - net_income
+    - controlling_interest_net_income
+    - ebitda
+
+  cash_flow:
+    - operating_cash_flow
+    - investing_cash_flow
+    - financing_cash_flow
+    - capex
+    - free_cash_flow
+    - net_debt
+
+  ratios:
+    - gross_margin
+    - operating_margin
+    - net_margin
+    - ebitda_margin
+    - roa
+    - roe
+    - roic
+    - current_ratio
+    - quick_ratio
+    - debt_to_equity
+    - equity_ratio
+    - debt_dependency
+    - interest_coverage
+    - net_debt_to_ebitda
+    - asset_turnover
+    - dso
+    - dio
+    - dpo
+    - ccc
+    - revenue_growth
+    - cfo_to_net_income
+
+  market:
+    - per
+    - pbr
+    - ev_ebitda
+    - fcf_yield
